@@ -43,32 +43,32 @@ def iris():
         copyy2=[]
         for i in chatid:
             print(i)
-            if check():
-                copyy.append(list((cowin.get_availability_by_district(str(i), date, 18)).values())[0])                #(list((cowin.get_availability_by_district(str(i), date, 18)).values())[0])
-                copyy2.append(list((cowin.get_availability_by_district(str(i), date, 45)).values())[0])
+            if check():                                                                                        #check for internet connectivity
+                copyy.append(list((cowin.get_availability_by_district(str(i), date, 18)).values())[0])         #data for age 18+       #(list((cowin.get_availability_by_district(str(i), date, 18)).values())[0])
+                copyy2.append(list((cowin.get_availability_by_district(str(i), date, 45)).values())[0])        #data for age 45+
             else:
                 time.sleep(60)
                 break
-        copyy_flat=[num for sublist in copyy for num in sublist] 
+        copyy_flat=[num for sublist in copyy for num in sublist] #flattening lists
         copyy2_flat=[num for sublist in copyy2 for num in sublist] 
-        categories['A']=list(x for x in copyy_flat if x.get("sessions")[0].get("vaccine")=='COVISHIELD' and x.get('sessions')[0].get('available_capacity')>4)
+        categories['A']=list(x for x in copyy_flat if x.get("sessions")[0].get("vaccine")=='COVISHIELD' and x.get('sessions')[0].get('available_capacity')>4)       #categorizing data from copyy_flat and copyy2_flat
         categories['B']=list(x for x in copyy_flat if x.get("sessions")[0].get("vaccine")=='COVAXIN' and x.get('sessions')[0].get('available_capacity')>4)
         categories['C']=list(x for x in copyy2_flat if x.get("sessions")[0].get("vaccine")=='COVISHIELD' and x.get('sessions')[0].get('available_capacity')>4)
         categories['D']=list(x for x in copyy2_flat if x.get("sessions")[0].get("vaccine")=='COVAXIN' and x.get('sessions')[0].get('available_capacity')>4)
         print("\n",len(categories['A']),len(categories['B']),len(categories['C']),len(categories['D']))
-        groups['cowinhash']=list(x for x in list(categories['C']+categories['D']) if x.get('state_name')=='Karnataka')                                            #categories['C']+categories['D']                    #keep conditional here   NICE                                #or we could directly initialize like above + something else above
+        groups['cowinhash']=list(x for x in list(categories['C']+categories['D']) if x.get('state_name')=='Karnataka')  #re categorizing data to subgroups                                          #categories['C']+categories['D']                    #keep conditional here   NICE                                #or we could directly initialize like above + something else above
         groups['Delhi']=list(x for x in list(categories['C']+categories['D']) if x.get('state_name')=='Delhi')                                                   #categories['C']+categories['D']
         groups['cox']=list(x for x in list(categories['B']+categories['D']) if x.get('state_name')=='Karnataka')
         groups['kerl']=list(x for x in [num for sublist in categories.values() for num in sublist] if x.get('state_name')=='Kerala')  
         groups['web']=list(x for x in list(categories['A']+categories['B']) if x.get('state_name'!='Karnataka' or x.get('state_name')!='Kerala') or x.get('state_name')!='Delhi')      
-        print(len(groups['cowinhash']),len(groups['Delhi']),len(groups['cox']),len(groups['kerl']),len(groups['web'])) #okay so subtracting 2 dicts is not efficient so find delta cen_id
+        print(len(groups['cowinhash']),len(groups['Delhi']),len(groups['cox']),len(groups['kerl']),len(groups['web'])) #subtracting 2 dicts is not efficient so find delta cen_id
         #netcent=[num.get('center_id') for sublist in groups.values() for num in sublist] #flatten groups.values and then extract center_id
         #netcent = {i:k for i,j in zip(groups.keys(),list(groups.values())) for k in j} 
         netcent=dict()
-        for i in groups.keys():
-            netcent[i]=[j.get('center_id') for j in groups[i]]
+        for i in groups.keys():         #allocating netcent and delta
+            netcent[i]=[j.get('center_id') for j in groups[i]]          
             #delta[i]=list(set(netcent[i])-set(temp[i]))       
-            delta[i]=list(set(netcent[i])-set(temp[i])) if len(list(set(netcent[i])-set(temp[i])))<5 else []         #ping limiter      
+            delta[i]=list(set(netcent[i])-set(temp[i])) if len(list(set(netcent[i])-set(temp[i])))<5 else []         #ping limiter using if      
 
         for i in [num for sublist in delta.values() for num in sublist]:
             retrieved=next((j for j in [num for sublist in groups.values() for num in sublist] if j.get('center_id')==i),None)  #get dictionary from groups.values which has center_id i
@@ -77,13 +77,13 @@ def iris():
             send_url= 'https://api.telegram.org/bot' + str(os.environ['BOT_ID']) + '/sendMessage?chat_id=' +fkey+ '&parse_mode=Markdown&text=' + "New update:\n Covaxin vaccine available at {}, {}, {}.\n Fee type: {}\n Center id: {},Date: {},Age: {} +, Vaccine: {}\n Dose 1: {} available, Dose 2: {} available".format(retrieved.get("name"),retrieved.get("address"),retrieved.get("district_name"),retrieved.get("fee_type"),retrieved.get("center_id"),retrieved.get("sessions")[0].get("date"),retrieved.get("sessions")[0].get("min_age_limit"),retrieved.get("sessions")[0].get("vaccine"),retrieved.get("sessions")[0].get("available_capacity_dose1"),retrieved.get("sessions")[0].get("available_capacity_dose2"))
             #print(send_url)
             try:
-                requests.get(send_url)
+                requests.get(send_url) #post message
             except requests.exceptions.ConnectionError:
                 time.sleep(60)
                 break
             #print(retrieved)
 
-        temp=copy(netcent)
-        time.sleep(10)
+        temp=copy(netcent) #copying data to search for new values in the next iteration
+        time.sleep(10) #interate every 10 seconds
         
 iris()
