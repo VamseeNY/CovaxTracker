@@ -1,0 +1,4 @@
+urllib3==1.25.9
+CoWIN-API-by-Kunal-Kumar-Sahoo==1.0.0
+requests==2.25.1
+pytz==2019.2
