@@ -5,10 +5,7 @@ import os
 app = Flask(__name__)
 
 
-# On IBM Cloud Cloud Foundry, get the port number from the environment variable PORT
-# When running this app on the local machine, default the port to 8000
 
-#port = int( os.getenv( 'VCAP_APP_PORT', 8080 ) )
 #port=int(os.getenv('PORT'))
 port=os.environ['PORT']
 print("port===",port)
@@ -32,9 +29,8 @@ def login():
     return render_template("test.html")
 
 if __name__ == '__main__':
-    #app.run(threaded=True)
     #app.run(threaded=True,port=port,host='0.0.0.0')
     app.run(threaded=True,port=port)
 
-    #app.run(debug=True)
+    
     
