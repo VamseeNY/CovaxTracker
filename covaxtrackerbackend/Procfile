@@ -1,0 +1,2 @@
+web: python paren.py
+worker: python paren.py 
