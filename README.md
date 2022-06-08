@@ -1,5 +1,5 @@
 # CovaxTracker
-A bot that scans for vaccine availability in analytically targeted regions and sends notifications via telegram channels. 
+A bot that scans for vaccine availability in strategically targeted regions and sends notifications via telegram channels. 
 
 ## Libraries, Packages and technologies used
 Python, Selenium, Flask, HTML, CSS, and Heroku
