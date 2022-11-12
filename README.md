@@ -1,19 +1,22 @@
 # CovaxTracker
-A bot that scans for vaccine availability in strategically targeted regions and sends notifications via telegram channels. 
+Get Telegram alerts on COVID-19 Vaccine availability in your locality.
 
-## Libraries, Packages and technologies used
-Python, Selenium, Flask, HTML, CSS, and Heroku
+## Libraries and Frameworks used
+Python, Selenium, Streamlit, Heroku.
 
-## Bot (CovaxTracker/covaxtrackerbackend/paren.py)
-The bot was developed using python and was deployed on heroku.
+## Bot
+A bot developed with python scans for vaccine availability in predetermined intervals. Notifications inform users on:
+*Address of Vaccination center
+*Center ID
+*Age group(18+ or 45+)
+*Fee Type(Paid or Free)
+*Number of doses available
 
 ## Telegram implementation
-Telegram channels were accessed by the bot via a unique 'chatid'. They are accessible via a webpage (https://covaxtracker.herokuapp.com/login) developed using HTML, CSS, and Flask deployed on Heroku.
+Telegram channels are accessed by the bot via a unique 'chatid'. Telegram channels can be joined via the web page available at https://vamseeny-covaxtracker-democovaxtrackerfe-mh7tnu.streamlit.app/
 
-## Automation
-The integration of the bot with the telegram channels was carried out by three automation scripts which created a channel, extracted its ID and invite link, and finally linked it to the bot.
+## Channel Automation
+Three automation scripts are used to create the telegram channels, extract their ID and invite link, and link them to the bot.
 
-## Challenges
-Memory management was tricky during backend development as the script had to collect data for a vast number of regions (about 200). Dealing with large amounts of data implies slower runtimes. The code was refactored and optimized to achieve acceptable runtimes. 
-
-
+## Note
+This bot has been deactivated since early 2022. 
