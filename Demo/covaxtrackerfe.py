@@ -24,7 +24,7 @@ for i in loc:
 header=st.container()
 
 with header:
-    txt, mp = st.columns([2,1])
+    txt, mp = st.columns([1.5,1])
     with txt:
         st.header("CovaxTracker")
         st.subheader("Get Telegram alerts on COVID-19 Vaccine availability in your locality")
@@ -42,4 +42,4 @@ with header:
         st.text("The source code for the bot,automated channel creation and this webpage are available at: ")
         st.write("[https://github.com/VamseeNY/CovaxTracker](https://github.com/VamseeNY/CovaxTracker)")
     with mp:
-        folium_static(m,width=550,height=850)
+        folium_static(m,width=525,height=750)
