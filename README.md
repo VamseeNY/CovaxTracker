@@ -1,5 +1,7 @@
 # CovaxTracker
 Get Telegram alerts on COVID-19 Vaccine availability in your locality.
+![image](https://github.com/VamseeNY/CovaxTracker/assets/104006094/0b645915-6ea5-48eb-917c-2d0cd519c385)
+
 
 ## Libraries and Frameworks used
 Python, Selenium, Streamlit, Heroku.
